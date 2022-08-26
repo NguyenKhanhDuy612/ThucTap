@@ -1,0 +1,43 @@
+.tieuDe {
+  justify-content: space-around;
+  display: flex;
+  align-items: center;
+  background-color: #000fff;
+  font-size: larger;
+  font-weight: bold;
+  color: #fff;
+}
+.main {
+  background-color: #808080;
+  width: 100%;
+  tr {
+    // border: 1px solid black;
+    .id {
+      width: 78px;
+    }
+    .username {
+      width: 180px;
+    }
+    .name {
+      width: 200px;
+    }
+    .email {
+      width: 192px;
+    }
+    .address {
+      width: 140px;
+    }
+    .phone {
+      width: 190px;
+    }
+    .website {
+      width: 120px;
+    }
+    td {
+      border: 1px solid black;
+      margin: auto;
+      text-align: center;
+      color: #fff;
+    }
+  }
+}

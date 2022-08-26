@@ -1,0 +1,43 @@
+.tieuDe {
+  justify-content: space-around;
+  display: flex;
+  align-items: center;
+  background-color: #000fff;
+  font-size: larger;
+  font-weight: bold;
+  color: #fff;
+}
+
+.main {
+  background-color: #808080;
+  width: 100%;
+}
+.main tr .id {
+  width: 78px;
+}
+.main tr .username {
+  width: 180px;
+}
+.main tr .name {
+  width: 200px;
+}
+.main tr .email {
+  width: 192px;
+}
+.main tr .address {
+  width: 140px;
+}
+.main tr .phone {
+  width: 190px;
+}
+.main tr .website {
+  width: 120px;
+}
+.main tr td {
+  border: 1px solid black;
+  margin: auto;
+  text-align: center;
+  color: #fff;
+}
+
+/*# sourceMappingURL=style.css.map */
