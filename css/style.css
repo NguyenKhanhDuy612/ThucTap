@@ -16,7 +16,8 @@
   width: 78px;
 }
 .main tr .username {
-  width: 180px;
+  /* width: 180px; */
+  width: 50%;
 }
 .main tr .name {
   width: 200px;
