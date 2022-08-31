@@ -1,4 +1,7 @@
 let postsAPI = "http://localhost:3000/posts";
+const createBtn = document.querySelector("#create");
+
+let postList = [];
 
 // START
 function start() {
@@ -55,7 +58,8 @@ function handleDeletePost(id) {
 
 //RENDER
 function renderPosts(posts) {
-  localStorage.setItem("data", JSON.stringify(posts));
+  postList = [...posts];
+
   // chuyển js sang json
   let listPost = document.querySelector("#list-posts");
   let htmls = posts.map(function (post) {
@@ -75,6 +79,9 @@ function renderPosts(posts) {
     </table>
     `;
   });
+
+  console.log("htmls:: ", htmls);
+
   let titleTB = `
   <table class="table">
         <tr>
@@ -92,7 +99,6 @@ function renderPosts(posts) {
 
 // SỬ LÝ CREATE
 function handleCreateForm() {
-  let createBtn = document.querySelector("#create");
   createBtn.onclick = function () {
     // TẠO GIÁ TRỊ TRONG INPUT
     let title = document.querySelector('input[name="title"]').value;
@@ -130,24 +136,34 @@ function handleFixPost(data, id) {
     });
 }
 
-function inputFix(post) {
-  let listData = JSON.parse(localStorage.getItem("data"));
+function inputFix(id) {
   // let currentData = listData.find(function(item) {item.id === post});
-  let currentData = listData.find((item) => item.id === post);
-  let iFix = document.querySelector("#save");
-  let title = document.getElementById("title");
-  let author = document.getElementById("author");
+  let currentData = postList.find((item) => item.id === id);
 
-  title.value = currentData.title;
-  author.value = currentData.author;
+  // Patch Old data to Element
+  let titleElement = document.getElementById("title");
+  let authorElement = document.getElementById("author");
+  titleElement.value = currentData.title;
+  authorElement.value = currentData.author;
 
-  iFix.onclick = function () {
-    let title = document.getElementById("title").value;
-    let author = document.getElementById("author").value;
+  // Handle buttons
+  let save = document.querySelector("#save");
+  save.style.display = "block";
+  createBtn.style.display = "none";
+
+  save.onclick = function () {
+    let newValueTitle = document.getElementById("title").value;
+    let newValueAuthor = document.getElementById("author").value;
     let dataForm1 = {
-      title: title,
-      author: author,
+      title: newValueTitle,
+      author: newValueAuthor,
     };
-    handleFixPost(dataForm1, post);
+    handleFixPost(dataForm1, id);
+
+    titleElement.value = "";
+    authorElement.value = "";
+
+    save.style.display = "none";
+    createBtn.style.display = "block";
   };
 }
