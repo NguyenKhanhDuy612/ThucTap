@@ -55,17 +55,21 @@ function handleDeletePost(id) {
 
 //RENDER
 function renderPosts(posts) {
+  localStorage.setItem("data", JSON.stringify(posts));
+  // chuyển js sang json
   let listPost = document.querySelector("#list-posts");
   let htmls = posts.map(function (post) {
+    console.log(post);
     return `
     <table class="table">
       <tr>
-            <th scope="row">${post.id}</th>
-            <td>${post.title}</td>
-            <td> ${post.author}</td>
-            <td>
+            <th class="col-1">${post.id}</th>
+            <td class="col-4">${post.title}</td>
+            <td class="col-4"> ${post.author}</td>
+            <td class="">
               <button type="button" class="btn btn-primary " onClick="handleDeletePost(${post.id})">Xóa</button>
-              <button type="button" class="btn btn-secondary" onClick="handleFixPost(${post.id})">Sửa</button>
+              <button type="button" class="btn btn-secondary" onClick="inputFix(${post.id})" onchange="handleFixPost(data,${post.id})">Sửa</button>
+              <button type="button" class="btn btn-info" onClick="">Xem chi tiết</button>
             </td>
       </tr>
     </table>
@@ -73,19 +77,17 @@ function renderPosts(posts) {
   });
   let titleTB = `
   <table class="table">
-      <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">Title</th>
-          <th scope="col">Author</th>
-          <th scope="col">Chức năng</th>
+          <th class="col-1">ID</th>
+          <th class="col-4">Title</th>
+          <th class="col-4">Author</th>
+          <th scclassope="">Chức năng</th>
         </tr>
-      </thead>
     </table>`;
   let html = htmls.join("");
   // document.getElementById("demo").innerHTML = titleTB + html;
-  // listPost.innerHTML = titleTB + html;
-  listPost.innerHTML = html;
+  listPost.innerHTML = titleTB + html;
+  // listPost.innerHTML = html;
 }
 
 // SỬ LÝ CREATE
@@ -108,47 +110,13 @@ function handleCreateForm() {
   };
 }
 
-// SỬA
-
-// function handleFixPost(data, callback) {
-//   const formData = new FormData();
-//   const fileField = document.querySelector('input[name="title"]');
-
-//   formData.append("123", "abc123");
-//   formData.append("avatar", fileField.files[0]);
-//   let options1 = {
-//     method: "PUT",
-//     body: formData,
-//   };
-//   fetch(postsAPI, options1)
-//     .then(function (response) {
-//       response.json();
-//     })
-//     // .then(callback)
-//     .then(function (result) {
-//       console.log("Success:", result);
-//     })
-//     .catch((error) => {
-//       console.error("Error:", error);
-//     });
-// }
-
-function handleFixPost(id) {
+function handleFixPost(data, id) {
   let options1 = {
     method: "PATCH",
-    // method: "POST",
-    // crossDomain: true,
-    // xhrFields: {
-    //   withCredentials: true,
-    // },
     headers: {
-      // Accept: "application/json",
-      // "Content-Type": "application/json",
-      // _method: "PATCH",
       "Content-Type": "application/json;  charset=UTF-8",
-      // 'Content-Type': 'application/x-www-form-urlencoded',
     },
-    // body: JSON.stringify(data),
+    body: JSON.stringify(data),
   };
   fetch(postsAPI + "/" + id, options1)
     .then(function (response) {
@@ -156,27 +124,30 @@ function handleFixPost(id) {
     })
     .then(function () {
       getPosts(renderPosts);
+    })
+    .catch(function () {
+      console.log("lỗi");
     });
-  // .then(function (data) {
-  //   console.log(data);
-  // })
-  // .catch(function () {
-  //   console.log("lỗi");
-  // });
-  // .then(callback);
 }
 
-function inputFix(id) {
+function inputFix(post) {
+  let listData = JSON.parse(localStorage.getItem("data"));
+  // let currentData = listData.find(function(item) {item.id === post});
+  let currentData = listData.find((item) => item.id === post);
   let iFix = document.querySelector("#save");
+  let title = document.getElementById("title");
+  let author = document.getElementById("author");
+
+  title.value = currentData.title;
+  author.value = currentData.author;
+
   iFix.onclick = function () {
-    let title = document.querySelector('input[name="title"]').value;
-    let author = document.querySelector('input[name="author"]').value;
+    let title = document.getElementById("title").value;
+    let author = document.getElementById("author").value;
     let dataForm1 = {
       title: title,
       author: author,
     };
-    handleFixPost(dataForm1, function () {
-      getPosts(renderPosts);
-    });
+    handleFixPost(dataForm1, post);
   };
 }
