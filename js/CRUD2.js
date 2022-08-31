@@ -72,7 +72,7 @@ function renderPosts(posts) {
             <td class="col-4"> ${post.author}</td>
             <td class="">
               <button type="button" class="btn btn-primary " onClick="handleDeletePost(${post.id})">Xóa</button>
-              <button type="button" class="btn btn-secondary" onClick="inputFix(${post.id})" onchange="handleFixPost(data,${post.id})">Sửa</button>
+              <button type="button" class="btn btn-success" onClick="inputFix(${post.id})" onchange="handleFixPost(data,${post.id})">Sửa</button>
               <button type="button" class="btn btn-info" onClick="">Xem chi tiết</button>
             </td>
       </tr>
